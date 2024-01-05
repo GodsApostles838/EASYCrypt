@@ -36,7 +36,7 @@ C:\Users\User> pip install easycrypt
 **2.** You need to make sure you're in the project, you can do this by opening the terminal and typing the following command, or you can navigate to the project folder, left click and open terminal in there.
 ```cs
 C:\Users\User> cd Yourproject
-C:\Users\User\Yourprojecr>
+C:\Users\User\Yourproject>
 ```
 
 **3.** All done! Now just import easycrypt and happy coding, find some examples down below.

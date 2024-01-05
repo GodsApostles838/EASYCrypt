@@ -29,12 +29,12 @@
 
 
 **1.** You're going to need to import easycrypt using PIP. Make sure you have PIP up-to date.
-```python
+```cs
 C:\Users\User> pip install easycrypt
 ```
 
 **2.** You need to make sure you're in the project, you can do this by opening the terminal and typing the following command, or you can navigate to the project folder, left click and open terminal in there.
-```python
+```cs
 C:\Users\User> cd Yourproject
 C:\Users\User\Yourprojecr>
 ```

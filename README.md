@@ -28,5 +28,10 @@
 **How to get started**
 
 
-1. You're going to need to import easycrypt using PIP. Make sure you have PIP up-to date.
+**1. **You're going to need to import easycrypt using PIP. Make sure you have PIP up-to date.
 [![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png)
+
+**2. **You need to make sure you're in the project, you can do this by opening the terminal and typing the following command, or you can navigate to the project folder, left click and open terminal in there.
+
+[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/cd_into_project.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/cd_into_project.png)
+

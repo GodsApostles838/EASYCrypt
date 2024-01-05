@@ -42,7 +42,7 @@ C:\Users\User\Yourproject>
 **3.** All done! Now just import easycrypt and happy coding, find some examples down below.
 
 
-**Example 1** Message encyption
+## **Example 1** Message encyption
 ```python
 from AES_encryption import *
 
@@ -52,7 +52,7 @@ print("Encrypted message:", ciphertext)  # Remove .hex() here
 
 ```
 
-**Example 2** Easy encyption (simple & most easiest)
+## **Example 2** Easy encyption (simple & most easiest)
 ```python
 from AES_encryption import *
 

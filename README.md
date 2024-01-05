@@ -1,8 +1,6 @@
 # EASYCrypt
 
-### Features
-
-**KEY FEATURES**
+## **KEY FEATURES**
 
 - Effortless Encryption and Decryption: Handle common cryptographic tasks with just a few lines of code.
 
@@ -14,7 +12,7 @@
 
 - Ideal for Quick Tasks: Secure sensitive information, cookies, files, and more with ease.
 
-# Available Features
+## **Available Features**
 
 - Encryption and decryption using popular algorithms (AES, DES, etc.)
 - Secure key and initialization vector generation
@@ -27,5 +25,8 @@
 
 
 ----
-How to get started
+**How to get started**
+
+
+1. You're going to need to import easycrypt using PIP. Make sure you have PIP up-to date.
 [![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png)

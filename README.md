@@ -33,5 +33,6 @@
 
 **2.** You need to make sure you're in the project, you can do this by opening the terminal and typing the following command, or you can navigate to the project folder, left click and open terminal in there.
 
-[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/cd_into_project.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/cd_into_project.png)
+[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/cd_into_project.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/cd_into_project.png)
 
+**3.** All done! Now just import easycrypt and happy coding, find some examples down below.

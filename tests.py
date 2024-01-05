@@ -1,14 +1,9 @@
-from AES import *
-from base64 import b64encode
+from AES_encryption import *
 
-# Example usage:
-iv, ciphertext = AESEncrypt(key=b'hello world', key_size=256, cipher_mode='CBC', plaintext='This is secret').encrypt()
+a =  "hello world"
 
-print('---------------------------------------')
-print('IV:', b64encode(iv).decode('utf-8'))
-print('Ciphertext:', b64encode(ciphertext).decode('utf-8'))
+# Encryption:
+print((lambda ai: ai.encrypt())(AESEncrypt(urandom(16), a)))
 
-
-print('---------------------------------------')
-print('IV:', b64encode(iv).decode('utf-8'))
-print('Ciphertext:', b64encode(ciphertext).decode('utf-8'))
+# Decryption:
+print((lambda ai: ai.return_key(ai.encrypt()))(AESEncrypt(urandom(16), a)))

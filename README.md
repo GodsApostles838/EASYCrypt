@@ -40,3 +40,16 @@
 [![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example1.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example1.png)
 
 [![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example2.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example2.png)
+
+```
+from AES_encryption import *
+
+a =  "hello world"
+
+# Encryption:
+print((lambda ai: ai.encrypt())(AESEncrypt(urandom(16), a)))
+
+# Decryption:
+print((lambda ai: ai.return_key(ai.encrypt()))(AESEncrypt(urandom(16), a)))
+
+```

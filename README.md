@@ -37,9 +37,14 @@
 
 **3.** All done! Now just import easycrypt and happy coding, find some examples down below.
 
-[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example1.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example1.png)
+```python
+from AES_encryption import *
 
-[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example2.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example2.png)
+message = input("Enter your message: ")
+ciphertext, iv = AESEncrypt(urandom(16), message.encode()).encrypt()
+print("Encrypted message:", ciphertext)  # Remove .hex() here
+
+```
 
 ```python
 from AES_encryption import *

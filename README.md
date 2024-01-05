@@ -36,3 +36,28 @@
 [![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/cd_into_project.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/cd_into_project.png)
 
 **3.** All done! Now just import easycrypt and happy coding, find some examples down below.
+
+
+**Example 1** Message encyption
+```python
+from AES_encryption import *
+
+message = input("Enter your message: ")
+ciphertext, iv = AESEncrypt(urandom(16), message.encode()).encrypt()
+print("Encrypted message:", ciphertext)  # Remove .hex() here
+
+```
+
+**Example 2** Easy encyption (simple & most easiest)
+```python
+from AES_encryption import *
+
+a =  "hello world"
+
+# Encryption:
+print((lambda ai: ai.encrypt())(AESEncrypt(urandom(16), a)))
+
+# Decryption:
+print((lambda ai: ai.return_key(ai.encrypt()))(AESEncrypt(urandom(16), a)))
+
+```

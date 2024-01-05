@@ -1,55 +1,29 @@
-EASYCrypt: Simple Python Cryptography
-EASYCrypt is a Python library designed to make cryptography accessible and straightforward. Whether you need basic encryption or decryption, EASYCrypt simplifies the process with clear and concise functions.
+# EASYCrypt
 
-Why EASYCrypt?
-Simple and Intuitive: No expertise in cryptography required. EASYCrypt offers functions that are clear and easy to understand.
+### Features
 
-Focus on Common Tasks: Covering frequently used encryption and decryption scenarios, EASYCrypt minimizes configuration and technical details.
+**KEY FEATURES**
 
-Lightweight and Efficient: Keep your code bloat-free and performant with EASYCrypt.
+- Effortless Encryption and Decryption: Handle common cryptographic tasks with just a few lines of code.
 
-Ideal for Quick Jobs: Secure secrets, cookies, or files effortlessly with just a few lines of code.
+- User-Friendly Design: No need to be a cryptography expert, thanks to EASYCrypt's intuitive libary makes it accessible to all.
 
-What Can You Do with EASYCrypt?
-Encrypt and decrypt data using popular algorithms like AES and DES.
+- Focus on Essentials: Covers the most frequently used encryption techniques, streamlining your workflow.
 
-Generate secure keys and initialization vectors.
+- Lightweight and Efficient: Keeps your code clean and performant, avoiding unnecessary bloat.
 
-Encode and decode data in base64, hexadecimal, or other formats.
+- Ideal for Quick Tasks: Secure sensitive information, cookies, files, and more with ease.
 
-Sign and verify data to ensure authenticity and integrity.
+# Available Features
 
-Getting Started
-Install EASYCrypt:
+- Encryption and decryption using popular algorithms (AES, DES, etc.)
+- Secure key and initialization vector generation
+- Data encoding and decoding (base64, hexadecimal, etc.)
+- Data signing and verification for authenticity and integrity
+- Customizable for advanced users (explore documentation for details)
 
-bash
-Copy code
-pip install easycrypt
-Import the Library:
+![Static Badge](https://img.shields.io/badge/version-v1.0.0-blue?style=flat&logoColor=grey&labelColor=grey&color=blue)
 
-python
-Copy code
-from easycrypt import EasyCrypt
-Create an EasyCrypt Object with Your Key:
+**Table of Contents**
 
-python
-Copy code
-encryptor = EasyCrypt(b"your_secret_key")
-Encrypt Your Data:
 
-python
-Copy code
-ciphertext = encryptor.encrypt(b"your_data")
-Decrypt Your Data:
-
-python
-Copy code
-plaintext = encryptor.decrypt(ciphertext)
-That's it! EASYCrypt handles the rest.
-
-Advanced Features
-For advanced users, EASYCrypt offers additional features such as custom algorithms and modes. Explore the documentation for complete details.
-
-Remember to use cryptography responsibly and ethically.
-
-Happy coding!

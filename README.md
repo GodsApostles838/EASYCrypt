@@ -29,7 +29,7 @@
 
 
 **1.** You're going to need to import easycrypt using PIP. Make sure you have PIP up-to date.
-```bat
+```ps1
 C:\Users\User> pip install easycrypt
 ```
 

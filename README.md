@@ -48,7 +48,7 @@ from AES_encryption import *
 
 message = input("Enter your message: ")
 ciphertext, iv = AESEncrypt(urandom(16), message.encode()).encrypt()
-print("Encrypted message:", ciphertext)  # Remove .hex() here
+print("Encrypted message:", ciphertext)
 
 ```
 

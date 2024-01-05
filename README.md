@@ -41,7 +41,7 @@
 
 [![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example2.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/example2.png)
 
-```
+```python
 from AES_encryption import *
 
 a =  "hello world"

@@ -22,8 +22,10 @@
 - Data signing and verification for authenticity and integrity
 - Customizable for advanced users (explore documentation for details)
 
-![Static Badge](https://img.shields.io/badge/version-v1.0.0-blue?style=flat&logoColor=grey&labelColor=grey&color=blue)
-
-**Table of Contents**
+![Static Badge](https://img.shields.io/badge/version-v1.0.0-blue?style=flat&logoColor=grey&labelColor=grey&color=blue) ![Static Badge](https://img.shields.io/badge/Python-v3.12.0-blue?labelColor=yellow)
 
 
+
+----
+How to get started
+[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png)

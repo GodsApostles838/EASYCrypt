@@ -11,13 +11,13 @@ class AESEncrypt:
     AES_ALGORITHM = algorithms.AES
     CFB_MODE = modes.CFB
 
-    def __init__(self, key: bytes, plaintext: str) -> None:
+    def __init__(self, key: bytes, plaintext: typing.Union[bytes, str]) -> None:
         """
         Initializes the AESEncrypt instance.
 
         Args:
             key (bytes): The key used for encryption and decryption.
-            plaintext (str): The plaintext to be encrypted.
+            plaintext (Union[bytes, str]): The plaintext to be encrypted.
         """
         self._key = key
         self._plaintext = plaintext
@@ -51,7 +51,7 @@ class AESEncrypt:
         Returns:
             str: The corresponding hexadecimal string.
         """
-        return byte_data.hex()git 
+        return byte_data.hex()
 
     def _initialize_cipher(self) -> Cipher:
         """
@@ -72,7 +72,15 @@ class AESEncrypt:
         """
         cipher = self._initialize_cipher()
         encryptor = cipher.encryptor()
-        ciphertext = encryptor.update(self._plaintext.encode()) + encryptor.finalize()
+
+        if isinstance(self._plaintext, str):
+            plaintext_bytes = self._plaintext.encode()
+        elif isinstance(self._plaintext, bytes):
+            plaintext_bytes = self._plaintext
+        else:
+            raise ValueError("Invalid plaintext type")
+
+        ciphertext = encryptor.update(plaintext_bytes) + encryptor.finalize()
         return self._bytes_to_hex(ciphertext), self._bytes_to_hex(self._iv)
 
     def decrypt(self, ciphertext_hex: str, iv_hex: str) -> bytes:

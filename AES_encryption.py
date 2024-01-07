@@ -57,20 +57,4 @@ class AES_EASYcrypt:
         return decrypted_message
 
     def m_x_to_e(self, key: bytes) -> bytes:
-        result = bytearray()
-        i = 0
-
-        while i < len(key):
-            if key[i:i + 1] == b'x':
-                if i > 0 and key[i - 1:i] != b'\\' and key[i - 1:i] != b'\n':
-                    result.extend([key[i - 1], key[i]])  # Merge 'x' with the previous byte
-                elif i < len(key) - 1:
-                    result.extend([key[i], key[i + 1]])  # Merge 'x' with the next byte
-                    i += 1  # Skip the next character
-                else:
-                    result.append(key[i])  # Append standalone 'x' at the end
-            else:
-                result.append(key[i])
-            i += 1
-
         return bytes(result)

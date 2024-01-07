@@ -29,26 +29,30 @@
 
 
 **1.** You're going to need to import easycrypt using PIP. Make sure you have PIP up-to date.
-[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/install_easycrypt.png)
+```ps1
+C:\Users\User> pip install easycrypt
+```
 
 **2.** You need to make sure you're in the project, you can do this by opening the terminal and typing the following command, or you can navigate to the project folder, left click and open terminal in there.
-
-[![](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/cd_into_project.png?raw=true)](https://github.com/GodsApostles838/EASYCrypt/blob/Main/Resources/examples/cd_into_project.png)
+```cmd
+C:\Users\User> cd Yourproject
+C:\Users\User\Yourproject>
+```
 
 **3.** All done! Now just import easycrypt and happy coding, find some examples down below.
 
 
-**Example 1** Message encyption
+## **Example 1** Message encyption
 ```python
 from AES_encryption import *
 
 message = input("Enter your message: ")
 ciphertext, iv = AESEncrypt(urandom(16), message.encode()).encrypt()
-print("Encrypted message:", ciphertext)  # Remove .hex() here
+print("Encrypted message:", ciphertext)
 
 ```
 
-**Example 2** Easy encyption (simple & most easiest)
+## **Example 2** Easy encyption (simple & most easiest)
 ```python
 from AES_encryption import *
 

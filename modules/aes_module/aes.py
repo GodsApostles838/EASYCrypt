@@ -8,7 +8,7 @@ import hashlib
 from Crypto import Random
 from Crypto.Cipher import AES as CryptoAES 
 
-class AES:
+class Aes:
     """
     Securely encrypts and decrypts data using AES. 
     """

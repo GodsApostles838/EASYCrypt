@@ -1,0 +1,34 @@
+# Ignore compiled Python files
+__pycache__/
+
+# Ignore distribution build directory
+dist/
+
+# Ignore egg-info directory
+*.egg-info/
+
+# Ignore local configuration
+*.local
+*.log
+
+# Ignore coverage report
+htmlcov/
+
+# Ignore macOS system files
+.DS_Store
+
+# Ignore compiled Python files
+*.pyc
+*.pyo
+*.pyd
+
+# Ignore any generated files or directories
+# (Add any other generated files or directories you want to ignore)
+_generated/
+
+# Ignore secrets or configuration files
+config.ini
+secrets.json
+
+# Ignore virtual environment
+venv/

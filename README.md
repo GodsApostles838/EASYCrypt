@@ -1,6 +1,8 @@
 # EASYCrypt
 ## WORK IN PROCESS - STILL-IN-DEVELOPERMENT
-
+* Note, most of this docs, readme.md will be outdated. Please look for "Updated 2023" labels under readme.md
+* If there is no "Updated 2023" then this readme.md is outdated, this libary will be updated.
+   
 ## **KEY FEATURES**
 
 - Effortless Encryption and Decryption: Handle common cryptographic tasks with just a few lines of code.

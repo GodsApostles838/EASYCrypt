@@ -1,111 +1,155 @@
 # AES Encryption using Python
-
 # Author: Blake D 
-# Copyright (c) 2024 GodsApostles. All rights reserved. 
+# Copyright (c) 2024 GodsApostles. All rights reserved.
 
 import base64
 import hashlib
+import os
+from typing import Tuple, Union, Optional
 from Crypto import Random
-from Crypto.Cipher import AES as CryptoAES 
+from Crypto.Cipher import AES as CryptoAES
 
-class Aes:
+
+class AES:
     """
-    Securely encrypts and decrypts data using AES. 
+    Securely encrypts and decrypts data using AES with a simple interface.
+    
+    This class provides an intuitive API for AES encryption operations,
+    handling key derivation, padding, and encoding/decoding automatically.
     """
-
-    def __init__(self, key: bytes) -> None:
+    
+    def __init__(self, key: Union[str, bytes]) -> None:
         """
-        Initializes the cipher with a secret key.
-
+        Initialize the AES cipher with a secret key.
+        
         Args:
-            key: The encryption key as bytes (exactly 16, 24, or 32 bytes).
+            key: The encryption key as string or bytes. 
+                 Will be hashed to produce a secure 256-bit key.
         """
-        self.bs = CryptoAES.block_size
-        self.key = hashlib.sha256(key).digest()         
-
-    def encrypt(self, plaintext: str) -> str:
+        self.block_size = CryptoAES.block_size
+        
+        # Convert string keys to bytes if needed
+        if isinstance(key, str):
+            key = key.encode('utf-8')
+            
+        # Derive a secure key using SHA-256
+        self.key = hashlib.sha256(key).digest()
+    
+    def encrypt(self, plaintext: Union[str, bytes]) -> str:
         """
-        Encrypts a message and returns the base64-encoded ciphertext.
-
+        Encrypt data and return the base64-encoded ciphertext.
+        
         Args:
-            plaintext: The message to be encrypted.
-
+            plaintext: The data to encrypt (string or bytes)
+            
         Returns:
-            The encrypted message as a base64-encoded string.
+            The encrypted data as a base64-encoded string
         """
-        padded_text = self._pad(plaintext)
-        iv = Random.new().read(self.bs) 
+        # Convert string to bytes if needed
+        if isinstance(plaintext, str):
+            plaintext = plaintext.encode('utf-8')
+            
+        # Add padding
+        padded_data = self._pad(plaintext)
+        
+        # Generate a random initialization vector
+        iv = Random.new().read(self.block_size)
+        
+        # Create cipher and encrypt
         cipher = CryptoAES.new(self.key, CryptoAES.MODE_CBC, iv)
-        encrypted_bytes = iv + cipher.encrypt(padded_text.encode())
+        encrypted_bytes = iv + cipher.encrypt(padded_data)
+        
+        # Return base64 encoded result
         return base64.b64encode(encrypted_bytes).decode('utf-8')
-
-    def decrypt(self, ciphertext: bytes) -> str:
+    
+    def decrypt(self, ciphertext: Union[str, bytes]) -> str:
         """
-        Decrypts a base64-encoded ciphertext and returns the plaintext.
-
+        Decrypt a base64-encoded ciphertext and return the plaintext.
+        
         Args:
-            ciphertext: The ciphertext to be decrypted as bytes.
-
+            ciphertext: The encrypted data (base64 string or bytes)
+            
         Returns:
-            The decrypted plaintext message.
+            The decrypted plaintext as a string
+            
+        Raises:
+            ValueError: If decryption fails due to invalid data or key
         """
-        ciphertext = base64.b64decode(ciphertext)
-        iv = ciphertext[:self.bs]
-        cipher = CryptoAES.new(self.key, CryptoAES.MODE_CBC, iv)
-        decrypted_bytes = self._unpad(cipher.decrypt(ciphertext[self.bs:]))
-        return decrypted_bytes.decode('utf-8')
-
-    @staticmethod
-    def _pad(text: str) -> str:
-        """
-        Adds PKCS7 padding to a string.
-
-        Args:
-            text: The string to be padded.
-
-        Returns:
-            The padded string.
-        """
-        padding_length = AES.bs - len(text) % AES.bs
-        return text + chr(padding_length) * padding_length
-
-    @staticmethod
-    def _unpad(padded_bytes: bytes) -> bytes:
-        """
-        Removes PKCS7 padding from bytes.
-
-        Args:
-            padded_bytes: The bytes to be unpadded.
-
-        Returns:
-            The unpadded bytes.
-        """
-        return padded_bytes[:-padded_bytes[-1]]
+        try:
+            # Convert string to bytes if needed
+            if isinstance(ciphertext, str):
+                ciphertext = ciphertext.encode('utf-8')
+                
+            # Decode from base64
+            encrypted_data = base64.b64decode(ciphertext)
+            
+            # Extract IV and ciphertext
+            iv = encrypted_data[:self.block_size]
+            actual_ciphertext = encrypted_data[self.block_size:]
+            
+            # Create cipher and decrypt
+            cipher = CryptoAES.new(self.key, CryptoAES.MODE_CBC, iv)
+            decrypted_bytes = self._unpad(cipher.decrypt(actual_ciphertext))
+            
+            # Return decoded result
+            return decrypted_bytes.decode('utf-8')
+        except Exception as e:
+            raise ValueError(f"Decryption failed: {str(e)}")
+    
+    def _pad(self, data: bytes) -> bytes:
+        """Add PKCS7 padding to data."""
+        padding_length = self.block_size - len(data) % self.block_size
+        padding = bytes([padding_length]) * padding_length
+        return data + padding
+    
+    def _unpad(self, data: bytes) -> bytes:
+        """Remove PKCS7 padding from data."""
+        padding_length = data[-1]
+        if padding_length > self.block_size:
+            raise ValueError("Invalid padding")
+        if data[-padding_length:] != bytes([padding_length]) * padding_length:
+            raise ValueError("Invalid padding")
+        return data[:-padding_length]
 
     @classmethod
-    def encrypt_message(cls, key: str, message: str) -> str:
+    def generate_key(cls, length: int = 32) -> bytes:
         """
-        Convenient class method for encrypting a message with a string key.
-
+        Generate a secure random key of specified length.
+        
         Args:
-            key: The encryption key as a string.
-            message: The message to be encrypted.
-
+            length: Key length in bytes (default: 32)
+            
         Returns:
-            The encrypted message as a base64-encoded string.
+            Random bytes suitable for use as an encryption key
         """
-        cipher = cls(key.encode()) 
-        return cipher.encrypt(message)
+        return os.urandom(length)
     
-    
-    def r_key(key: bytes) -> bytes:
+    @classmethod
+    def encrypt_simple(cls, key: Union[str, bytes], data: Union[str, bytes]) -> str:
         """
-        Reversing hashed key
-
+        One-line encryption method for simple use cases.
+        
         Args:
-            key (bytes): The encryption key as a string
-
+            key: The encryption key (string or bytes)
+            data: The data to encrypt (string or bytes)
+            
         Returns:
-            Reversed key for current key
+            The encrypted data as a base64-encoded string
         """
-        return key[::-1]
+        cipher = cls(key)
+        return cipher.encrypt(data)
+    
+    @classmethod
+    def decrypt_simple(cls, key: Union[str, bytes], ciphertext: Union[str, bytes]) -> str:
+        """
+        One-line decryption method for simple use cases.
+        
+        Args:
+            key: The encryption key (string or bytes)
+            ciphertext: The encrypted data (base64 string or bytes)
+            
+        Returns:
+            The decrypted plaintext as a string
+        """
+        cipher = cls(key)
+        return cipher.decrypt(ciphertext)
